@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#eee9dd">
+<title>APOLLO — Sam Taber</title>
+<style>
+:root {
+  --paper: #eee9dd;
+  --ink: #18271e;
+  --orange: #f05a24;
+  --line: rgba(24,39,30,.25);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
+}
+body:after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+  opacity: .10;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.4'/%3E%3C/svg%3E");
+}
+a { color: inherit; text-decoration: none; }
+header {
+  padding: 20px 4%;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font: 11px "Courier New", monospace;
+  letter-spacing: .1em;
+}
+.logo { font-size: 17px; font-weight: bold; letter-spacing: .2em; }
+nav { display: flex; gap: 22px; }
+nav a:hover, .orange { color: var(--orange); }
+.hero {
+  min-height: 78vh;
+  padding: 7vh 4% 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+.label {
+  font: 11px "Courier New", monospace;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.hero h1 {
+  font-size: clamp(20vw, 28vw, 38vw);
+  line-height: .72;
+  letter-spacing: -.105em;
+  margin: 12vh 0;
+  position: relative;
+  z-index: 1;
+}
+.orbit {
+  position: absolute;
+  width: 45vw;
+  aspect-ratio: 1;
+  border: 1px solid var(--orange);
+  border-radius: 50%;
+  right: 8%;
+  top: 17%;
+  transform: scaleX(.65) rotate(-30deg);
+}
+.orbit:before, .orbit:after {
+  content: "";
+  position: absolute;
+  inset: 16%;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  transform: scaleX(.45) rotate(45deg);
+}
+.orbit:after {
+  inset: 28%;
+  border-color: var(--orange);
+  transform: scaleX(.8) rotate(-35deg);
+}
+.hero-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: end;
+  font: 11px "Courier New", monospace;
+  text-transform: uppercase;
+}
+.hero-bottom p { max-width: 280px; line-height: 1.7; }
+.ticker {
+  background: var(--orange);
+  color: var(--paper);
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 13px 0;
+  font: 12px "Courier New", monospace;
+  letter-spacing: .12em;
+}
+.ticker div { animation: move 28s linear infinite; }
+.ticker span { padding: 0 24px; }
+@keyframes move { to { transform: translateX(-25%); } }
+section { padding: 95px 4%; border-bottom: 1px solid var(--line); }
+.heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 20px;
+  margin-bottom: 38px;
+}
+.heading h2 {
+  font-size: clamp(42px, 8vw, 100px);
+  line-height: .85;
+  letter-spacing: -.08em;
+  margin: 0;
+}
+.music {
+  display: grid;
+  grid-template-columns: 1.2fr .8fr;
+  gap: 5vw;
+  align-items: center;
+}
+.cover {
+  aspect-ratio: 1.15;
+  background: var(--orange);
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.cover:before {
+  content: "";
+  position: absolute;
+  width: 65%;
+  aspect-ratio: 1;
+  border: 1px solid var(--paper);
+  border-radius: 50%;
+  box-shadow: 0 0 0 25px #ffffff20, 0 0 0 65px #ffffff15;
+  transform: scaleX(.6) rotate(-25deg);
+}
+.cover-title {
+  position: relative;
+  font-size: clamp(42px, 8vw, 100px);
+  line-height: .78;
+  letter-spacing: -.09em;
+  font-weight: 900;
+  text-transform: uppercase;
+  transform: rotate(-7deg);
+}
+.cover-title small {
+  display: block;
+  font: 10px "Courier New", monospace;
+  letter-spacing: .12em;
+  margin-top: 22px;
+}
+.release h3 {
+  font-size: clamp(42px, 6vw, 75px);
+  line-height: .85;
+  letter-spacing: -.08em;
+  margin: 20px 0;
+}
+.release p { line-height: 1.8; max-width: 380px; }
+.buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 25px; }
+.button {
+  display: inline-block;
+  border: 1px solid var(--ink);
+  border-radius: 50px;
+  padding: 12px 16px;
+  font: 11px "Courier New", monospace;
+  text-transform: uppercase;
+}
+.button:hover { background: var(--ink); color: var(--paper); }
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 14px;
+}
+.art {
+  aspect-ratio: .8;
+  padding: 18px;
+  display: flex;
+  align-items: end;
+  position: relative;
+  overflow: hidden;
+  background: #d6cbbb;
+}
+.art:nth-child(2) { background: #26392c; color: var(--paper); }
+.art:nth-child(3) { background: #d8a184; }
+.art:before {
+  content: "";
+  position: absolute;
+  width: 80%;
+  aspect-ratio: 1;
+  top: 5%;
+  left: 10%;
+  border: 1px solid var(--orange);
+  border-radius: 50%;
+  transform: scaleX(.5) rotate(35deg);
+}
+.art:nth-child(2):before { border-color: var(--paper); }
+.art:nth-child(3):before { border-color: var(--ink); transform: scaleX(.9) rotate(60deg); }
+.art strong { position: relative; font: 11px "Courier New", monospace; }
+.room {
+  background: var(--ink);
+  color: var(--paper);
+  min-height: 330px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+.room:before, .room:after {
+  content: "";
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  border: 1px solid var(--orange);
+  border-radius: 50%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%) scaleX(.4);
+}
+.room:after {
+  border-color: #eee9dd80;
+  transform: translate(-50%,-50%) rotate(50deg) scaleX(.7);
+}
+.room p { position: relative; z-index: 1; font: 12px "Courier New", monospace; line-height: 1.8; }
+.about {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5vw;
+}
+.about h2 { font-size: clamp(42px,7vw,85px); line-height: .88; letter-spacing: -.08em; margin: 0; }
+.about p { line-height: 1.9; max-width: 450px; }
+footer {
+  padding: 25px 4%;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  font: 11px "Courier New", monospace;
+  text-transform: uppercase;
+}
+@media(max-width:650px) {
+  header { padding: 17px 5%; }
+  nav { gap: 12px; }
+  nav a { font-size: 10px; }
+  .hero { min-height: 68vh; padding: 7vh 5% 25px; }
+  .hero h1 { font-size: 28vw; }
+  .orbit { width: 70vw; right: -10%; top: 22%; }
+  .hero-bottom { flex-wrap: wrap; }
+  section { padding: 65px 5%; }
+  .heading { flex-direction: column; }
+  .music, .about { grid-template-columns: 1fr; }
+  .gallery { grid-template-columns: 1fr 1fr; }
+  .art:last-child { display: none; }
+  footer { padding: 22px 5%; flex-wrap: wrap; }
+}
+@media(prefers-reduced-motion:reduce) {
+  *, *:before, *:after { animation: none !important; scroll-behavior: auto !important; }
+}
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="#home">APOLLO®</a>
+  <span class="label">Independent transmission / 001</span>
+  <nav>
+    <a href="#music">Music</a>
+    <a href="#visuals">Visuals</a>
+    <a href="#info">Info</a>
+  </nav>
+</header>
+
+<main id="home">
+  <div class="hero">
+    <div class="label">Sam Taber — artist / producer</div>
+    <div class="orbit"></div>
+    <h1>APOL<span class="orange">L</span>O</h1>
+    <div class="hero-bottom">
+      <p>Music for the space between the signal and the noise.<br>Connect, drift, repeat.</p>
+      <span class="orange">↓ Scroll to explore</span>
+      <span>EST. 2026</span>
+    </div>
+  </div>
+
+  <div class="ticker"><div>
+    <span>SAM TABER ✳</span><span>INDEPENDENT SOUND ✳</span>
+    <span>APOLLO TRANSMISSION ✳</span><span>LUCKY STRIKE ✳</span>
+    <span>SAM TABER ✳</span><span>INDEPENDENT SOUND ✳</span>
+  </div></div>
+
+  <section id="music">
+    <div class="heading">
+      <h2>Latest<br>release.</h2>
+      <span class="label">01 / Music archive</span>
+    </div>
+    <div class="music">
+      <div class="cover">
+        <div class="cover-title">Lucky<br>Strike<small>SAM TABER — SINGLE</small></div>
+      </div>
+      <div class="release">
+        <span class="label orange">Out now / ST-001</span>
+        <h3>Lucky<br>Strike.</h3>
+        <p>A transmission from Sam Taber. Listen wherever you get your music.</p>
+        <div class="buttons">
+          <a class="button" href="https://open.spotify.com/search/Sam%20Taber%20Lucky%20Strike" target="_blank" rel="noopener">Spotify ↗</a>
+          <a class="button" href="https://music.apple.com/us/search?term=Sam%20Taber%20Lucky%20Strike" target="_blank" rel="noopener">Apple Music ↗</a>
+          <a class="button" href="https://www.youtube.com/results?search_query=Sam+Taber+Lucky+Strike" target="_blank" rel="noopener">YouTube ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="visuals">
+    <div class="heading">
+      <h2>Image<br>archive.</h2>
+      <span class="label">02 / Field notes</span>
+    </div>
+    <div class="gallery">
+      <div class="art"><strong>01 — Afterimage</strong></div>
+      <div class="art"><strong>02 — No signal</strong></div>
+      <div class="art"><strong>03 — Blue hour</strong></div>
+    </div>
+    <p class="label" style="margin-top:20px">Visual studies / more soon</p>
+  </section>
+
+  <section>
+    <div class="heading">
+      <h2>Other<br>dimensions.</h2>
+      <span class="label">03 / Spatial experiment</span>
+    </div>
+    <div class="room">
+      <span class="label">Spatial archive — in progress</span>
+      <p>A little room outside the real world.<br>3D environment coming soon.</p>
+    </div>
+  </section>
+
+  <section id="info">
+    <div class="about">
+      <h2>Made in<br>the in-between.</h2>
+      <div>
+        <p>APOLLO is the home for Sam Taber’s music, visuals, and whatever comes next. Independent sounds, rough edges, late-night colors.</p>
+        <p class="label">Connect / Follow the signal</p>
+        <div class="buttons">
+          <a class="button" href="https://open.spotify.com/search/Sam%20Taber" target="_blank" rel="noopener">Spotify ↗</a>
+          <a class="button" href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>© <span id="year"></span> Sam Taber / APOLLO</span>
+  <a class="orange" href="#home">Back to top ↑</a>
+</footer>
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
